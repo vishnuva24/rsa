@@ -1,5 +1,5 @@
 from bignum import BigNum, randgen
-from rsa_functions import mod_inv, decrypt
+from rsa_functions import gcd, eegcd, mod_inv, expmod, miller_rabin, primegen, keygen, encrypt, decrypt
 
 def eegcd(a, b): #extended euclid gcd
     r, r1 = a, b
