@@ -107,7 +107,7 @@ def decrypt(d, N, cipher):
 # print("Decrypted message:", decrypt(d, n, cipher_text))
 
 
-
+# contains functions: gcd, eegcd, mod_inv, expmod, miller_rabin, primegen, keygen, encrypt, decrypt
 
 
 
