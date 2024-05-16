@@ -1,6 +1,8 @@
 from random import randint
 
+
 def gcd(a, b): # euclid gcd
+    # INV: gcd(a,b) = gcd(b, a%b)
     while b != 0:
         a, b = b, a%b
     return a
@@ -62,7 +64,7 @@ def miller_rabin(n, k): # miller rabin primality test
 def primegen(bits):
     while True:
         num = randint(2**(bits-1), 2**bits-1)
-        if miller_rabin(num, 130):
+        if miller_rabin(num, 40):
             break
     return num
 
@@ -88,7 +90,6 @@ def encrypt(e, N, m):
 
 def decrypt(d, N, cipher):
     m = ""
-
     parts = cipher.split()
     for part in parts:
         if part:
@@ -98,13 +99,14 @@ def decrypt(d, N, cipher):
     return m
 
 
-# p, q, n, phi_n, e, d = keygen(32)
-# print(f'p: {p}\nq: {q}\nn: {n}\nphi_n: {phi_n}\ne: {e}\nd: {d}')
-# message = "Hello World"
-# print("Message:", message)
-# cipher_text = encrypt(e, n, message)
-# print("Cipher text:", cipher_text)
-# print("Decrypted message:", decrypt(d, n, cipher_text))
+p, q, n, phi_n, e, d = keygen(32)
+print('p, q, n, phi_n, e, d =' , p, q, n, phi_n, e, d, sep=',')
+print(f'p: {p}\nq: {q}\nn: {n}\nphi_n: {phi_n}\ne: {e}\nd: {d}')
+message = "Hello World"
+print("Message:", message)
+cipher_text = encrypt(e, n, message)
+print("Cipher text:", cipher_text)
+print("Decrypted message:", decrypt(d, n, cipher_text))
 
 
 # contains functions: gcd, eegcd, mod_inv, expmod, miller_rabin, primegen, keygen, encrypt, decrypt

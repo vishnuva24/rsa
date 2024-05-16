@@ -1,0 +1,290 @@
+\documentclass[a4paper]{article}
+\setlength{\topmargin}{-1.0in}
+\setlength{\oddsidemargin}{-0.2in}
+\setlength{\evensidemargin}{0in}
+\setlength{\textheight}{10.5in}
+\setlength{\textwidth}{6.5in}
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{amssymb}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{mathpartir}
+\usepackage{listings}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    pdftitle={Assignment 1},
+    pdfpagemode=FullScreen,
+    }
+\def\endproofmark{$\Box$}
+\newenvironment{proof}{\par{\bf Proof}:}{\endproofmark\smallskip}
+\begin{document}
+\begin{center}
+{\large \bf \color{red}  Department of Computer Science} \\
+{\large \bf \color{red}  Ashoka University} \\
+
+\vspace{0.1in}
+
+{\large \bf \color{blue}  Introduction to Computer Science: CS-1102-3}
+
+\vspace{0.05in}
+
+    { \bf \color{YellowOrange} RSA Extra Credit Assignment}
+\end{center}
+\medskip
+
+{\textbf{Collaborators:} None} \hfill {\textbf{Name:} Vishnu Varadarajan}
+
+\bigskip
+\hrule
+
+\section{Honor Code}
+I pledge that all work in this assignment is my own, or cited appropriately. I worked on this project a month ago, when Suban mentioned it in class, and thus was able to get through all this code. 
+
+\section{\texttt{BigNum} Package}
+The following code file contains the BigNum Class with basic arithmetic operations, like addition, subtraction, multiplication, division, and the comparisons. Invariants are in-code and time complexities are both in-code and mentioned afterwards \\ \texttt{bignum.py}.
+\lstinputlisting[language=Python]{./bignum.py}
+\subsection{Complexities}
+\begin{enumerate}
+    \item \texttt{\_\_add\_\_}
+        \begin{itemize}
+            \item Time complexity: \( O(N) \), where \( N \) is \( \max(l_1, l_2) \)
+            \item Space complexity: \( O(N) \), sum contains \texttt{self} + \texttt{other} \( \approx N \) digits
+        \end{itemize}
+
+    \item \texttt{\_\_sub\_\_}
+        \begin{itemize}
+            \item Time complexity: \( O(N) \), where \( N \) is \( \max(l_1, l_2) \)
+            \item Space complexity: \( O(N) \), diff contains \texttt{self} - \texttt{other} \( \approx N \) digits
+        \end{itemize}
+
+    \item \texttt{\_\_mul\_\_}
+        \begin{itemize}
+            \item Time complexity: \( O(N^2) \), where \( N \) is \( \max(l_1, l_2) \); technically \( O(N \times M) \), where \( N \) is the number of digits in \texttt{self} and \( M \) is the number of digits in \texttt{other}
+            \item Space complexity: \( O(N^2) \)
+        \end{itemize}
+
+    \item \texttt{\_\_eq\_\_}
+        \begin{itemize}
+            \item Time complexity: \( O(N) \), where \( N \) is the size of \texttt{self} and \texttt{other} if equal
+            \item Space complexity: \( O(1) \)
+        \end{itemize}
+
+    \item \texttt{\_\_lt\_\_}
+        \begin{itemize}
+            \item Time complexity: \( O(N) \), where \( N \) is the size of \texttt{self} and \texttt{other} if equal
+            \item Space complexity: \( O(1) \)
+        \end{itemize}
+
+    \item \texttt{\_\_le\_\_}
+        \begin{itemize}
+            \item Time complexity: \( O(N) \), where \( N \) is the size of \texttt{self} and \texttt{other} if equal
+            \item Space complexity: \( O(1) \)
+        \end{itemize}
+
+    \item \texttt{\_\_gt\_\_}
+        \begin{itemize}
+            \item Defined as \texttt{not self <= other}, So time complexity is \( O(N) \)
+            \item Space complexity: \( O(1) \)
+        \end{itemize}
+
+    \item \texttt{\_\_ge\_\_}
+        \begin{itemize}
+            \item Defined as \texttt{not self < other}, So time complexity is \( O(N) \)
+            \item Space complexity: \( O(1) \)
+        \end{itemize}
+
+    \item \texttt{\_\_init\_\_}
+        \begin{itemize}
+            \item Time complexity: \( O(N) \), where \( N \) is the number of digits in the integer or list
+            \item Space complexity: \( O(N) \), to store the digits
+        \end{itemize}
+
+    \item \texttt{length}
+        \begin{itemize}
+            \item Time complexity: \( O(N) \), due to the call to \texttt{remove\_redundant\_zeros}
+            \item Space complexity: \( O(1) \)
+        \end{itemize}
+
+    \item \texttt{remove\_redundant\_zeros}
+        \begin{itemize}
+            \item Time complexity: \( O(N) \), where \( N \) is the number of trailing zeros
+            \item Space complexity: \( O(1) \)
+        \end{itemize}
+
+    \item \texttt{\_\_floordiv\_\_}
+        \begin{itemize}
+            \item Placeholder implementation with Python's \texttt{int} conversion (not real complexity of \texttt{BigNum} division)
+            \item Time complexity: \( O(N) \), if using Python's \texttt{int}
+            \item Space complexity: \( O(N) \), for converting \texttt{BigNum} to \texttt{int} and back
+        \end{itemize}
+
+    \item \texttt{\_\_mod\_\_}
+        \begin{itemize}
+            \item Placeholder implementation with Python's \texttt{int} conversion (not real complexity of \texttt{BigNum} modulo)
+            \item Time complexity: \( O(N) \), if using Python's \texttt{int}
+            \item Space complexity: \( O(N) \), for converting \texttt{BigNum} to \texttt{int} and back
+        \end{itemize}
+
+    \item \texttt{sqr}
+        \begin{itemize}
+            \item Time complexity: \( O(N^2) \), as it calls \texttt{\_\_mul\_\_}
+            \item Space complexity: \( O(N^2) \)
+        \end{itemize}
+
+    \item \texttt{\_\_int\_\_}
+        \begin{itemize}
+            \item Time complexity: \( O(N) \), for converting the list of digits to an integer
+            \item Space complexity: \( O(N) \), for storing the string representation before conversion
+        \end{itemize}
+
+    \item \texttt{randgen}
+        \begin{itemize}
+            \item Time complexity: \( O(N) \), for generating a random number with \( N \) digits
+            \item Space complexity: \( O(N) \), for storing the digits of the random number
+        \end{itemize}
+\end{enumerate}
+
+\section{\texttt{RSA} Implementation}
+The following code implements the RSA algorithm. I have written functions for each subpart separately, and called them in the \texttt{keygen} function. Below are the lines where the subpart's helper functions are written and called.
+
+\begin{enumerate}
+    \item Generate two large prime numbers $p$ and $q$, and using them, generate $N = p \cdot q$. 
+        \begin{itemize}
+            \item Helper function \texttt{primegen} on line: 75.
+            \item Called on line: 85,86
+        \end{itemize}
+    
+    \item Generate $\Phi(N) = (p-1)(q-1)$. 
+        \begin{itemize}
+            \item Calculated on line: 88.
+        \end{itemize}
+    
+    \item Generate a value $e$ which is co-prime to $\Phi(N)$, $2 < e < \Phi(N)$. This must be done by creating a function that accepts $\Phi(N)$ as an argument and returns $e$. $e$ is the public key. 
+        \begin{itemize}
+            \item Calculated on line: 89-90.
+        \end{itemize}
+    
+    \item Generate a value $d$ which is the modular multiplicative inverse of $e \mod \Phi(N)$. $d$ is the private key. 
+        \begin{itemize}
+            \item Helper function \texttt{mod\_inv} on line: 26.
+            \item Called on line: 91.
+        \end{itemize}
+    
+    \item Create an encryption function that accepts the public key, $N$, and a message $m$ and outputs a cipher-text $c$. 
+        \begin{itemize}
+            \item Helper function \texttt{encrypt} on line: 97.
+            \item Called on line: 127.
+        \end{itemize}
+    
+    \item Create a decryption function that accepts the private key, $N$, and a ciphertext $c$ and outputs the message $m$. 
+        \begin{itemize}
+            \item Helper function \texttt{decrypt} on line: 106.
+            \item Called on line: 136.
+        \end{itemize}
+    
+    \item Hashing
+        \begin{itemize}
+            \item Helper function for hashing on line: 116.
+            \item Helper function for signature verification on line: 120.
+            \item Called on line: 134-135.
+        \end{itemize}
+\end{enumerate}
+\lstinputlisting[language=Python]{./rsa_bignum.py}
+\subsection{Complexities}
+\begin{enumerate}
+    \item \texttt{gcd}
+        \begin{itemize}
+            \item Time complexity: \( O(\log(\min(a, b))) \)
+            \item Space complexity: \( O(1) \)
+        \end{itemize}
+
+    \item \texttt{eegcd}
+        \begin{itemize}
+            \item Time complexity: \( O(\log(n)) \) where n is $\min(a, b)$
+            \item Space complexity: \( O(1) \)
+        \end{itemize}
+
+    \item \texttt{mod\_inv}
+        \begin{itemize}
+            \item Time complexity: \( O(\log(n)) \), where n is $\min(a, b)$
+            \item Space complexity: \( O(1) \)
+        \end{itemize}
+
+    \item \texttt{expmod}
+        \begin{itemize}
+            \item Time complexity: \( O(\log(e)) \), where \( e \) is the exponent
+            \item Space complexity: \( O(\log(e)) \)
+        \end{itemize}
+
+    \item \texttt{miller\_rabin}
+        \begin{itemize}
+            \item Time complexity: \( O(k \log^3(n)) \), where \( k \) is the number of iterations and \( n \) is the number to be tested
+            \item Space complexity: \( O(\log(n)) \)
+        \end{itemize}
+
+    \item \texttt{primegen}
+        \begin{itemize}
+            \item Time complexity: Depends on the density of prime numbers; on average \( O(k \log^3(n)) \) for each candidate (dominated by \texttt{miller\_rabin}). also assumes randint is \( O(1) \)
+            \item Space complexity: \( O(1) \)
+        \end{itemize}
+
+    \item \texttt{encrypt}
+        \begin{itemize}
+            \item Time complexity: \( O(N \log(e)) \), where \( N \) is the length of the message and \( e \) is the exponent
+            \item Space complexity: \( O(N) \), where \( N \) is the length of the message
+        \end{itemize}
+
+    \item \texttt{decrypt}
+        \begin{itemize}
+            \item Time complexity: \( O(N \log(d)) \), where \( N \) is the number of parts in the cipher and \( d \) is the exponent
+            \item Space complexity: \( O(N) \), where \( N \) is the number of parts in the cipher
+        \end{itemize}
+    
+    \item \texttt{hash}
+        \begin{itemize}
+            \item Time complexity: depends on complexity of hashing function. SHA-256 is \( O(N) \), where \( N \) is the length of the message
+            \item Space complexity: \( O(1) \)
+        \end{itemize}
+
+    \item \texttt{verify\_signature}
+        \begin{itemize}
+            \item Time complexity: \( O(M + N \log(e)) \), where \( M \) is the length of the message, \( N \) is the length of the signature, and \( e \) is the exponent
+            \item Space complexity: \( O(1) \)
+        \end{itemize}
+\end{enumerate}
+\section{Crack}
+By factoring \( N \), we can find \( p \) and \( q \), and then calculate \( \Phi(N) \). With \( \Phi(N) \), we can find \( d \) by calculating the modular multiplicative inverse of \( e \). With \( d \), we can decrypt the message. I also wrote a code to do this, using Pollards Rho Algorithm to factorize \( N \). The code is below.
+\lstinputlisting[language=Python]{./crack.py}
+
+\end{document}

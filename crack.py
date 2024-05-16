@@ -1,11 +1,11 @@
 import random
 from rsa_functions import gcd, mod_inv, decrypt
 
-#  p, q, n, phi_n, e, d = 2355907087,3368238499,7935256950500342413,7935256944776196828,7308092682596436899,5837948488583764175
+# p, q, n, phi_n, e, d =,24436991318977,34055572380119,832215726615760893022218263,832215726615702400458519168,76060994689140911975842253,62114521893687288827788805
 
 
 def crack(e, n, Cipher):# take d n and cipher later
-    p = PollardRho(n)
+    p = pollards_rho(n)
     q = n//p
     phi_N = (p-1)*(q-1)
     d = mod_inv(e, phi_N)
@@ -14,51 +14,29 @@ def crack(e, n, Cipher):# take d n and cipher later
 
 
 
-def PollardRho(n):
-    # no prime divisor for 1 
-
-    if (n == 1):
-        return n
-    # even number means one of the divisors is 2 
-    if (n % 2 == 0):
-        return 2
-    
-    # we will pick from the range [2, N) 
-    x = (random.randint(0, 2) % (n - 2))
+def pollards_rho(n):
+    x = random.randint(1, n-1) # atarting value
     y = x
- 
-    # the constant in f(x).
-    # Algorithm can be re-run with a different c
-    # if it throws failure for a composite. 
-    c = (random.randint(0, 1) % (n - 1))
- 
-    # Initialize candidate divisor (or result) 
+    c = random.randint(1, n-1) # constant
     d = 1
- 
-    # until the prime factor isn't obtained.
-    # If n is prime, return n 
-    while (d == 1):
-     
-        # Tortoise Move: x(i+1) = f(x(i)) 
-        x = (pow(x, 2, n) + c + n)%n
- 
-        # Hare Move: y(i+1) = f(f(y(i))) 
-        y = (pow(y, 2, n) + c + n)%n
-        y = (pow(y, 2, n) + c + n)%n
- 
-        # check gcd of |x-y| and n 
-        d = gcd(abs(x - y), n)
- 
-        # retry if the algorithm fails to find prime factor
-        # with chosen x and c 
-        if (d == n):
-            return PollardRho(n)
-     
+    g = lambda x: (x**2 + c) % n
+    # assert: x, y, c, d, g are established
+    # INV: after i iterations, x = g^i(x), y = g^(2i)(y), d = gcd(|x-y|, n)
+    while d == 1:
+        x = g(x)
+        y = g(g(y))
+        d = gcd(abs(x-y), n)
+    if d == n:
+        # assert: faliure, change constant and try again
+        return pollards_rho(n)
+    # assert: d is a non-trivial factor of n
     return d
+    
+e = 76060994689140911975842253
+n = 832215726615760893022218263
+# print(pollards_rho(n))
 
-e = 330533995785344237723
-n = 488218196117411607767
 message = 'Hello World'
-Cipher = '401133158832796049055 6818767094665954755 296221997294460630074 296221997294460630074 64367670690185027020 52683489144886450861 292266492688205585653 64367670690185027020 241852253927670951629 296221997294460630074 254799922735288436778'
+Cipher = '77323734602721437154790179 474351195725652548179741842 481418026336658409648606806 481418026336658409648606806 745594398935457163114956154 699524869002908509387414001 817068762785218786586140738 745594398935457163114956154 306080909929086718132670271 481418026336658409648606806 206102553942180323001442482'
 
 crack(e, n, Cipher)
